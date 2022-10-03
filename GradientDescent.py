@@ -1,5 +1,6 @@
 #x = np.array([12.45, 12.29, 14.29, 15.29, 16.29, 17.29, 18.29, 19.29])
 #y = np.array([18.32, 23.32, 25.32, 33.32, 38.32, 45.32, 48.32, 50.32])
+#y=4.619x-37.139
 
 import matplotlib.pyplot as plt
 import numpy as np
