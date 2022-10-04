@@ -32,7 +32,7 @@ def myfunctionderivateb(m, b):
     d = (1/n)*((2*m*xSum) + (2*b) - (2*ySum))
     return d
 
-#Initial points
+
 Miterations[0] = m
 Biterations[0] = b
 Ziterations[0] = myfunction(m, b)
