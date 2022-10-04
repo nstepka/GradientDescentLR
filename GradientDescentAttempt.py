@@ -1,53 +1,51 @@
-#here is what i came up with, but i dont think its right.
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.stats
+xArray = [12.45, 12.29, 14.29, 15.29, 16.29, 17.29, 18.29, 19.29]
+yArray = [18.32, 23.32, 25.32, 33.32, 38.32, 45.32, 48.32, 50.32]
+m = 1
+b = -37
+rate = 0.0001
+n = 8
 
-# the function is y=4.62x+37.14
-cur_x = 0 # The algorithm starts at x=2
-rate = 0.05 # Learning rate
-precision = 0.000001 #This tells us when to stop the algorithm
-previous_step_size = 1 #
-max_iters = 10000 # maximum number of iterations
+xSum = np.sum([12.45, 12.29, 14.29, 15.29, 16.29, 17.29, 18.29, 19.29])
+ySum = np.sum([18.32, 23.32, 25.32, 33.32, 38.32, 45.32, 48.32, 50.32])
+xSumSquare = np.sum(np.square(xArray))
+
+ySumSquare = np.sum(np.square(yArray))
+sumTotal = sum(xArray[i] * yArray[i] for i in range(len(xArray)))
+
+max_iters = 100 # maximum number of iterations
 iters = 0 #iteration counter
-Xiterations = np.zeros(max_iters)
-Yiterations = np.zeros(max_iters)
+Miterations = np.zeros(max_iters)
+Biterations = np.zeros(max_iters)
+Ziterations = np.zeros(max_iters)
 
-m = 0
-b = 0
-def myfunction(x):
-    y = 4.62*x+37.14 #Gradient of our function
-    return y
+def myfunction(m, b):
+    z = (1/n)*((m**2*xSumSquare) + (2*m*b*xSum) + (b**2) - (2*m*sumTotal) - (2*b*ySum) + (ySumSquare))
+    return z
 
-def myfunctionderivate(x):
-    x = 4.62 #Gradient of our function
-    return x
+def myfunctionderivatem(m, b):
+    d = (1/n)*((2*m*xSumSquare) + (2*b*xSum) - (2*sumTotal))
+    return d
+
+def myfunctionderivateb(m, b):
+    d = (1/n)*((2*m*xSum) + (2*b) - (2*ySum))
+    return d
 
 #Initial points
-Xiterations[0] = cur_x
-
-Yiterations[0] = myfunction(cur_x)
-print(Yiterations[0])
-
-while previous_step_size > precision and iters < max_iters:
-    prev_x = cur_x  # Store current x value in prev_x
-    cur_x = cur_x - rate * myfunctionderivate(prev_x)  # Grad descent
-    previous_step_size = abs(cur_x - prev_x)  # Change in x
-    Xiterations[iters] = cur_x
-    Yiterations[iters] =myfunction(cur_x)
-    #print("Iteration", iters, "\nX value is", cur_x)  # Print iterations
-    iters = iters + 1  # iteration count
-   # guess = m * x + b
-   # error = prev
-
-    
-#print("The local minimum occurs at", cur_x)
-#plt.plot(iters,cur_x,'b*')
-plt.scatter(Xiterations[0:iters], Yiterations[0:iters])
-plt.axis([-5,5, -1, 60])
-plt.show()
-m, b = np.polyfit(Xiterations[0:iters], Yiterations[0:iters], 1)
-r, p = scipy.stats.pearsonr(Xiterations[0:iters], Yiterations[0:iters])
-print(r)
-print(m)
-print(b)
+Miterations[0] = m
+Biterations[0] = b
+Ziterations[0] = myfunction(m, b)
+while iters < max_iters:
+    m = m - rate * myfunctionderivatem(m, b) # Grad descent
+    b = b - rate * myfunctionderivateb(m, b)
+    Miterations[iters] = m
+    Biterations[iters] = b
+    Ziterations[iters] = myfunction(m, b)
+    print("Iteration", iters, "X:", m, "Y:", b, "z:", myfunction(m,b))  # Print iterations
+    iters = iters + 1 # iteration count
+print("The local m is", m, " The local b is", b)
+#plt.plot(iters,m,'b*')
+#plt.scatter(Miterations[0:iters], Biterations[0:iters])
+#plt.axis([-1,5, -1, 25])
+#plt.show()
