@@ -1,13 +1,14 @@
 ##STOCHASTIC GRADIENT DESCENT
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 xArray = [12.45, 12.29, 14.29, 15.29, 16.29, 17.29, 18.29, 19.29]
 yArray = [18.32, 23.32, 25.32, 33.32, 38.32, 45.32, 48.32, 50.32]
 m = 4
 b = -37
 rate = 0.0001
 n = 8
-
+randomNumber = random.randrange(8)
 xSum = np.sum([12.45, 12.29, 14.29, 15.29, 16.29, 17.29, 18.29, 19.29])
 ySum = np.sum([18.32, 23.32, 25.32, 33.32, 38.32, 45.32, 48.32, 50.32])
 xSumSquare = np.sum(np.square(xArray))
@@ -26,11 +27,11 @@ def myfunction(m, b):
     return z
 
 def myfunctionderivatem(m, b):
-    d = m-rate*(2*m*12.45**2+2*b*12.45-2*12.45*18.32)
+    d = m-rate*(2*m*xArray[randomNumber]**2+2*b*xArray[randomNumber]-2*xArray[randomNumber]*yArray[randomNumber])
     return d
 
 def myfunctionderivateb(m, b):
-    d = b-rate*(2*m*12.45+2*b-2*18.32)
+    d = b-rate*(2*m*xArray[randomNumber]+2*b-2*yArray[randomNumber])
     return d
 
 
@@ -50,3 +51,4 @@ print("The local m is", m, " The local b is", b)
 #plt.scatter(Miterations[0:iters], Biterations[0:iters])
 #plt.axis([-1,5, -1, 25])
 #plt.show()
+
